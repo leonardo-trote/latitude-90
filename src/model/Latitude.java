@@ -132,7 +132,7 @@ private List<ObserverIF> lst = new ArrayList<ObserverIF>();
 	}
 	public int getPlayerpole(int id) {
 		return getPlayers()[id].get_pole();
-	}
+	}//Checa se um peão chegou ao polo e remove
 	public void ChecknRemovePawn(int idPlayer,int idPawn) {
 		Player player=getPlayers()[idPlayer];
 		Pawn pawn=player.get_Pawnbyid(idPawn);
@@ -140,13 +140,17 @@ private List<ObserverIF> lst = new ArrayList<ObserverIF>();
 			player.remove_pawn(idPawn);
 		}
 		return;
+	}//Remove um peão
+	public void RemovePawn(int idPlayer, int idPawn) {
+		Player player=getPlayers()[idPlayer];
+		player.remove_pawn(idPawn);
 	}
 	public Pawn[] get_lPawn(int idPlayer) {
 		return getPlayers()[idPlayer].get_lPawn();
 	}
 	public Map<String, String> get_hashmap(){
 		return board.get_hashmap(); 
-	}
+	}//Cria lista com as coordenadas dos peões de todos jogadores
 	public ArrayList<ArrayList<Integer>> CreatePawnArray(){
 		ArrayList<ArrayList<Integer>> temp = new ArrayList<ArrayList<Integer>>();
 		for(int i=0;i<lPlayer.length;i++) {

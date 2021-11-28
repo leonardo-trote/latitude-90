@@ -45,7 +45,7 @@ public class Controller {
 		}
 		return temp;
 	}
-	
+	//Seta os dados
 	public void forced_rolls(int id, int d1, int d2){
 		if(NotRolled){
 			drawDice1=true;
@@ -61,7 +61,7 @@ public class Controller {
 		}
 	}
 	
-	//recebe o id do player
+	//recebe o id do player e rola os dados aleatóriamente
 	public void rolls(int id) {
 		if(NotRolled) {
 			drawDice1=true;
@@ -78,9 +78,10 @@ public class Controller {
 		//pass();
 		//get_MovementsCoordinates(ArrayList<ArrayList<Integer>> LPCoord, Player player,Player[] lplayer, int id, int die1, int die2)
 	}
+	//Atualizar o array de coordenadas
 	public void updateLPCoord() {
 		LPCoord=api.CreatePawnArray();
-	}
+	}//Gera o array de Coordenadas de um player
 	public void generateCPP() {
 		CurrentPlayerPawns=playerPawnCoord(api.get_vez(),LPCoord);
 	}
@@ -101,14 +102,14 @@ public class Controller {
 			}
 		}
 		//if(checkAmount(lplayer[enemyid],x,j,pawn.get_pole())>=2)
-	}
+	}//salva o jogo
 	public void saveGame(ArrayList<ArrayList<Integer>> LPCoord,int vez) throws IOException{
 		try{
 			Save.main(LPCoord, vez, api.get_playersnumber());
 		} catch (IOException e) {
-			System.out.println("Deu erro em carregar partida!");
+			System.out.println("Deu erro ao salvar partida!");
 		}
-	}
+	}//Carrega um jogo salvo
 	public void loadGame() throws IOException{
 		
 	}

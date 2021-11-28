@@ -349,7 +349,7 @@ class Move{
 			}
 		}
 		return temp;
-	}
+	}//Gera uma lista com todas as coordenadas possíveis para o movimento
 	public static ArrayList<ArrayList<Integer>> MovementsCoordinates(ArrayList<ArrayList<Integer>> LPCoord, Player player,Player[] lplayer, int id, int die1, int die2){
 		ArrayList<ArrayList<Integer>> temp = new ArrayList<ArrayList<Integer>>();
 		Pawn pawn=player.get_Pawnbyid(id);

@@ -32,6 +32,7 @@ class MainPanel extends JPanel implements MouseListener, ObserverIF{
 	protected Controller controller;
 	
 	JButton rollForcedDiceButton = new JButton("Rolar dados escolhidos");
+	JButton save = new JButton("Salvar Jogo");
 
 	int forced1 = 1;
 	int forced2 = 1;
@@ -110,8 +111,21 @@ class MainPanel extends JPanel implements MouseListener, ObserverIF{
 			});
 		this.add(rollForcedDiceButton);
 		
-		
-		
+		save.setBounds(1100,600,150,25);
+		save.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				if (!controller.drawDice1&&!controller.drawDice2) {
+					try {
+						controller.saveGame(controller.LPCoord, controller.api.get_vez());
+						} catch (IOException e1) {
+							System.out.println("Não foi possível salvar a partida!");
+						}
+				} else {
+					System.out.println("Só pode salvar após finalizar o turno!");
+				}
+			}
+		});
+		this.add(save);			
 		addMouseListener(this);
 		this.setLayout(null);
 		JButton rollDiceButton = new JButton("Rolar dados");
@@ -119,7 +133,6 @@ class MainPanel extends JPanel implements MouseListener, ObserverIF{
 		rollDiceButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				controller.rolls(controller.api.get_vez());
-				//System.out.println(Arrays.deepToString(ValidMovements.toArray()));
 				repaint();}
 			});
 		this.add(rollDiceButton);
@@ -178,7 +191,6 @@ class MainPanel extends JPanel implements MouseListener, ObserverIF{
 			LPplayer=controller.playerPawnCoord(i,controller.LPCoord);
 			for(int j=0;j<LPplayer.size();j++) {
 				ArrayList<Integer> pawn = LPplayer.get(j);
-				//System.out.println(Arrays.deepToString(pawn.toArray()));
 				int pawnamount=controller.api.GetCheckAmount(i,pawn.get(0),pawn.get(1),pawn.get(2));
 				pawnImage = new ImageIcon("images/pawn_" + controller.api.getPlayerColor(i)+ ".png").getImage();
 				int x=pawn.get(4);
@@ -186,13 +198,16 @@ class MainPanel extends JPanel implements MouseListener, ObserverIF{
 				g2d.drawImage(pawnImage,x-PawnSize/2,y-PawnSize/2,PawnSize,PawnSize,null);
 				if (pawnamount>1) {
 					String l=new String(Integer.toString(pawnamount));
-					g2d.drawString(l,x-15,y-15);
+					if(i<2) {
+						g2d.drawString(l,x-15,y-15);
+					} else {
+						g2d.drawString(l,x+15,y+15);
+					}
 				}
 			}
 		}
 		//Previsões
 		if(ValidMovements!=null) {
-			//System.out.println(Arrays.deepToString(ValidMovements.toArray()));
 		for(int i=0;i<ValidMovements.size();i++) {
 			prevImage = new ImageIcon("images/pawn_" + controller.api.getPlayerColor(controller.api.get_vez())+ ".png").getImage();
 			String str = "("+ValidMovements.get(i).get(1)+","+ValidMovements.get(i).get(0)+","+ValidMovements.get(i).get(2)+")";
@@ -222,7 +237,6 @@ class MainPanel extends JPanel implements MouseListener, ObserverIF{
 					int x=controller.CurrentPlayerPawns.get(i).get(4);
 					int y=controller.CurrentPlayerPawns.get(i).get(5);
 					if(Math.pow((cx-x),2)+Math.pow(cy-y,2)<=169) {
-						//System.out.printf("Selecionou o peão %d\n",i);
 						//Seleciona o Peão
 						SelectedPawn= new ArrayList<Integer>();
 						SelectedPawn.add(controller.api.get_vez());
@@ -240,18 +254,8 @@ class MainPanel extends JPanel implements MouseListener, ObserverIF{
 						else {
 							dado2=controller.api.get_die2_value();
 						}
-						//System.out.printf("%d,%d\n",dado1,dado2);
 						ValidMovements=controller.api.get_MovementsCoordinates(controller.LPCoord,controller.api.getPlayers()[controller.api.get_vez()],controller.api.getPlayers(),controller.CurrentPlayerPawns.get(i).get(3),dado1,dado2);
 						
-						// MUDAR DE LUGAR V V
-						try {
-						//controller.loadGame();
-						controller.saveGame(controller.LPCoord, controller.api.get_vez());
-						} catch (IOException e1) {
-							System.out.println("Deu erro em carregar partida!");
-							//System.exit(-1);
-						}
-						// MUDAR DE LUGAR ^^
 						break;
 					}
 				}
@@ -311,7 +315,6 @@ class MainPanel extends JPanel implements MouseListener, ObserverIF{
 		
 		Rectangle imageBounds = new Rectangle(865 , 420, 200, 200);
 		if (imageBounds.contains(point)){
-		    System.out.println("clicou na carta");
 		}
 		repaint();
 	}

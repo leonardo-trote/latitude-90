@@ -63,7 +63,6 @@ public class StartFrame extends JFrame implements ActionListener{
 					int idPlayer,x,y,pole,idPawn;
 					String str=infos.get(i);
 					String newstr=str.substring(1,str.length()-1);
-					System.out.println(newstr);
 					String[] splitted=newstr.split(",");
 					idPlayer=Integer.valueOf(splitted[0].strip());
 					x=Integer.valueOf(splitted[1].strip());
@@ -74,6 +73,19 @@ public class StartFrame extends JFrame implements ActionListener{
 					//SETAR TODOS OS PEÕES DO INFOS PARA AS COORDENADAS SALVAS USANDO Set_PawnCoord//
 					//Cada peão foi salvo como [Playerid,x,y,pole,Pawnid,Playerpole]//
 					//SE O PEÃO NÃO TIVER, REMOVER ELE DA LISTA DE PEÕES DO JOGADOR COM remove_pawn//
+				}
+				for(int i=0;i<nPlayers;i++) {
+					boolean remove=true;
+					for(int j=0;j<6;j++) {
+						for(int k=2;k<infos.size();k++) {
+							if(i==Integer.valueOf(infos.get(k).substring(1,infos.get(k).length()-1).split(",")[0].strip()) && j==Integer.valueOf(infos.get(k).substring(1,infos.get(k).length()-1).split(",")[4].strip())) {
+								remove=false;
+							}
+						}
+						if(remove) {
+							cont.api.RemovePawn(i,j);
+						}
+					}
 				}
 				cont.updateLPCoord();
 			} finally {
