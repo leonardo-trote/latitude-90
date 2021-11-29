@@ -42,9 +42,11 @@ public class StartFrame extends JFrame implements ActionListener{
 		
 		}
 		public void loadGame() throws IOException{
-			ArrayList<String> infos = controller.Load.main(null);
+			//ArrayList<String> infos = controller.Load.main(null);
 			
 			try {
+				ArrayList<String> infos = controller.Load.main(null);
+				if (infos!=null) {
 				this.setVisible(false);
 				int vez=Integer.valueOf(infos.get(0));
 				int nPlayers=Integer.valueOf(infos.get(1));
@@ -70,9 +72,6 @@ public class StartFrame extends JFrame implements ActionListener{
 					pole=Integer.valueOf(splitted[3].strip());
 					idPawn=Integer.valueOf(splitted[4].strip());
 					cont.api.Set_PawnCoord(idPlayer, idPawn, x, y, pole);					
-					//SETAR TODOS OS PEÕES DO INFOS PARA AS COORDENADAS SALVAS USANDO Set_PawnCoord//
-					//Cada peão foi salvo como [Playerid,x,y,pole,Pawnid,Playerpole]//
-					//SE O PEÃO NÃO TIVER, REMOVER ELE DA LISTA DE PEÕES DO JOGADOR COM remove_pawn//
 				}
 				for(int i=0;i<nPlayers;i++) {
 					boolean remove=true;
@@ -88,8 +87,9 @@ public class StartFrame extends JFrame implements ActionListener{
 					}
 				}
 				cont.updateLPCoord();
+				}
 			} finally {
-				//
+				System.out.println("Erro ao carregar");
 			}
 		}
 		public void actionPerformed(ActionEvent e){
